@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package service2;
+
+service Service2 {
+  rpc FindOne (ById) returns (Hello);
+  rpc FindRpc (ById) returns (Hello);
+}
+
+message Hello {
+  int32 id = 1;
+  string name = 2;
+}
+message ById {
+  int32 id = 1;
+}

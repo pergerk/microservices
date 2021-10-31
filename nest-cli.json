@@ -1,0 +1,68 @@
+{
+  "collection": "@nestjs/schematics",
+  "sourceRoot": "gw/src",
+  "monorepo": true,
+  "root": "gw",
+  "compilerOptions": {
+    "webpack": true,
+    "tsConfigPath": "gw/tsconfig.app.json",
+    "assets": [
+      {
+        "include": "../apps/service1/src/service1.proto",
+        "outDir": ".."
+      },
+      {
+        "include": "../apps/service2/src/service2.proto",
+        "outDir": ".."
+      }
+    ]
+  },
+  "projects": {
+    "gw": {
+      "type": "application",
+      "root": "gw",
+      "entryFile": "main",
+      "sourceRoot": "gw/src",
+      "compilerOptions": {
+        "tsConfigPath": "gw/tsconfig.app.json",
+        "assets": [
+          "../../apps/*/src/*.proto"
+        ]
+      }
+    },
+    "service1": {
+      "type": "application",
+      "root": "apps/service1",
+      "entryFile": "main",
+      "sourceRoot": "apps/service1/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/service1/tsconfig.app.json",
+        "assets": [
+          "service1.proto",
+          "../../service2/src/service2.proto"
+        ]
+      }
+    },
+    "service2": {
+      "type": "application",
+      "root": "apps/service2",
+      "entryFile": "main",
+      "sourceRoot": "apps/service2/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/service2/tsconfig.app.json",
+        "assets": [
+          "service2.proto"
+        ]
+      }
+    },
+    "errors": {
+      "type": "library",
+      "root": "libs/errors",
+      "entryFile": "index",
+      "sourceRoot": "libs/errors/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/errors/tsconfig.lib.json"
+      }
+    }
+  }
+}
