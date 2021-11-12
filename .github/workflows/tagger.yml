@@ -1,0 +1,22 @@
+name: CI/CD Aerp version tag
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  set-tag:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Extract branch name
+        shell: bash
+        run: echo "##[set-output name=tag;]$(git rev-list --count HEAD)"
+        id: extract_tag
+      - name: set Tag 
+        run: git tag v${{ steps.extract_tag.outputs.tag }}
+      
+      - name: push
+        run: git push origin v${{ steps.extract_tag.outputs.tag }}
