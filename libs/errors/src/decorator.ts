@@ -1,4 +1,8 @@
-import { UseFilters } from '@nestjs/common';
-import { GrpcExceptionFilter } from './exception.filter';
+import { applyDecorators, UseFilters, UseInterceptors } from '@nestjs/common';
+import { GrpcExceptionFilter, MetadataInterceptor } from './exception.filter';
 
-export const CustomGrpcFilter = () => UseFilters(GrpcExceptionFilter);
+export const CustomGrpcFilter = () =>
+  applyDecorators(
+    UseInterceptors(MetadataInterceptor),
+    UseFilters(GrpcExceptionFilter),
+  );

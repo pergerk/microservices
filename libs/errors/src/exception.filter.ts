@@ -1,9 +1,17 @@
-import { ArgumentsHost, Catch, ExecutionContext } from '@nestjs/common';
+import {
+  ArgumentsHost,
+  CallHandler,
+  Catch,
+  ExecutionContext,
+  Injectable,
+  NestInterceptor,
+} from '@nestjs/common';
 import {
   BaseRpcExceptionFilter,
   Ctx,
   RpcException,
 } from '@nestjs/microservices';
+import { Metadata } from 'grpc';
 import { Observable, throwError } from 'rxjs';
 import { BaseException } from './errors/base.exception';
 
@@ -14,10 +22,12 @@ export class GrpcExceptionFilter extends BaseRpcExceptionFilter {
     host: ArgumentsHost,
   ): Observable<RpcException> {
     const rpc = host.switchToRpc();
-    const ctx = rpc.getContext<ExecutionContext>();
+    const ctx = rpc.getContext<Metadata>();
     console.log('host.getType()', host.getType());
-    console.log('ctx.getClass fn', ctx.getClass);
-    console.log('ctx.getHandler fn', ctx.getHandler);
+    console.log(ctx.get('class'));
+    console.log(ctx.get('handler'));
+    console.log(ctx.get('handler1'));
+
     if (exception instanceof RpcException) {
       console.log('filtered instance rpc', exception.message);
       return throwError(() => exception);
@@ -34,5 +44,16 @@ export class GrpcExceptionFilter extends BaseRpcExceptionFilter {
     }
     //TODO: maybe need to handle other type of exceptions?
     return throwError(() => exception);
+  }
+}
+
+@Injectable()
+export class MetadataInterceptor implements NestInterceptor {
+  intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
+    const rpc = context.switchToRpc();
+    const ctx = rpc.getContext<Metadata>();
+    ctx.add('Handler', context.getHandler().name);
+    ctx.add('Class', context.getClass().name);
+    return next.handle();
   }
 }
