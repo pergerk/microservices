@@ -5,17 +5,7 @@
   "root": "gw",
   "compilerOptions": {
     "webpack": true,
-    "tsConfigPath": "gw/tsconfig.app.json",
-    "assets": [
-      {
-        "include": "../apps/service1/src/service1.proto",
-        "outDir": ".."
-      },
-      {
-        "include": "../apps/service2/src/service2.proto",
-        "outDir": ".."
-      }
-    ]
+    "tsConfigPath": "gw/tsconfig.app.json"
   },
   "projects": {
     "gw": {
@@ -30,29 +20,22 @@
         ]
       }
     },
-    "service1": {
+    "auth": {
       "type": "application",
-      "root": "apps/service1",
+      "root": "apps/auth",
       "entryFile": "main",
-      "sourceRoot": "apps/service1/src",
+      "sourceRoot": "apps/auth/src",
       "compilerOptions": {
-        "tsConfigPath": "apps/service1/tsconfig.app.json",
-        "assets": [
-          "service1.proto",
-          "../../service2/src/service2.proto"
-        ]
+        "tsConfigPath": "apps/auth/tsconfig.app.json"
       }
     },
-    "service2": {
+    "posts": {
       "type": "application",
-      "root": "apps/service2",
+      "root": "apps/posts",
       "entryFile": "main",
-      "sourceRoot": "apps/service2/src",
+      "sourceRoot": "apps/posts/src",
       "compilerOptions": {
-        "tsConfigPath": "apps/service2/tsconfig.app.json",
-        "assets": [
-          "service2.proto"
-        ]
+        "tsConfigPath": "apps/posts/tsconfig.app.json"
       }
     },
     "errors": {
