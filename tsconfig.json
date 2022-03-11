@@ -1,12 +1,16 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
+    // "module": "commonjs",
+    // "target": "es2017",
+
+    "target": "esnext",
+    "module": "esnext",
+
     "declaration": true,
     "removeComments": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
-    "target": "es2017",
     "sourceMap": true,
     "outDir": "./dist",
     "baseUrl": "./",
@@ -19,6 +23,22 @@
       "@lib/errors/*": [
         "libs/errors/src/*"
       ]
-    }
-  }
+    },
+    "moduleResolution": "node",
+    "jsx": "preserve",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "strict": false,
+    "allowJs": true,
+    "esModuleInterop": true,
+  },
+  "exclude": [
+    "node_modules",
+    "ssr.config.js",
+    "dist",
+    ".ssr"
+  ]
 }
